@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Proyecto;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class ProyectosController extends Controller
 {
@@ -13,7 +16,8 @@ class ProyectosController extends Controller
      */
     public function index()
     {
-        //
+        $proyectos=DB::table('proyectos')->get();
+        return view('proyecto.index',['proyectos'=>$proyectos]);
     }
 
     /**
