@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Proyecto;
+use App\Models\Proyectos;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 
@@ -60,9 +60,9 @@ class ProyectosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $proyectos = Proyectos::find($id);
+        return view('proyecto.edit', compact('proyectos'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -71,9 +71,18 @@ class ProyectosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
-    }
+{
+    $request->validate([
+        'nombre' => 'required|max:255',
+        'descripcion' => 'required',
+    ]);
+
+    $proyectos = Proyectos::find($id);
+    $proyectos->update($request->all());
+
+    return redirect()->route('proyecto.index');
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -82,7 +91,12 @@ class ProyectosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
-    }
+{
+    $proyectos = proyectos::find($id);
+    $proyectos->delete();
+
+    return redirect()->route('edit.blade')
+        ->with('success', 'Product deleted successfully');
+}
+
 }
